@@ -1,2 +1,3 @@
 curl http://127.0.0.1:3000/predict -X POST -H "Content-Type: application/json" --data @data.json
 curl http://127.0.0.1:3000/predict --header "Content-Type: application/json" --request POST --data @data.json -N
+curl http://127.0.0.1:3000/predict --header "Content-Type: application/json" --request POST --data @tensor_image.json -N
