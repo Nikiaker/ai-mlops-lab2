@@ -2,7 +2,7 @@ import torch
 from PIL import Image
 from torchvision import transforms
 from typing import Any
-from main import LightningModel
+from train import LightningModel
 
 def predict_image(model_checkpoint: str, image_path: str) -> int:
     model = LightningModel.load_from_checkpoint(model_checkpoint)

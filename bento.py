@@ -1,7 +1,7 @@
 import bentoml
 from bentoml.io import JSON
 import torch
-from main import LightningModel
+from train import LightningModel
 
 CHECKPOINT_PATH = "./checkpoints/best_model-epoch=03-val_loss=0.15.ckpt"
 model = LightningModel.load_from_checkpoint(CHECKPOINT_PATH)
