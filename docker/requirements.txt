@@ -1,0 +1,5 @@
+bentoml
+boto3
+torchvision
+torch
+pytorch_lightning

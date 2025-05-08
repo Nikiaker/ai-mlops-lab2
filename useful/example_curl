@@ -1,2 +1,4 @@
 curl http://127.0.0.1:3000/predict --header "Content-Type: application/json" --request POST --data @data.json -N
 curl http://127.0.0.1:3000/predict --header "Content-Type: application/json" --request POST --data @img_creator/tensor_image.json -N
+
+curl -XPOST "http://localhost:9000/2015-03-31/functions/function/invocations" --data @docker/s3-event.json

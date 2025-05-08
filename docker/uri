@@ -1,0 +1,49 @@
+aws s3 mb s3://my-ml-model-bucket
+
+814871541945.dkr.ecr.eu-central-1.amazonaws.com/bentoml-lambda-repo
+
+aws ecr get-login-password \
+  --region eu-central-1 \
+  | docker login --username AWS \
+    --password-stdin 814871541945.dkr.ecr.eu-central-1.amazonaws.com/bentoml-lambda-repo
+
+sudo docker tag my-bentoml-lambda:latest \
+  814871541945.dkr.ecr.eu-central-1.amazonaws.com/bentoml-lambda-repo:latest
+
+sudo docker push 814871541945.dkr.ecr.eu-central-1.amazonaws.com/bentoml-lambda-repo:latest
+
+aws lambda create-function \
+  --function-name bentomlInference \
+  --package-type Image \
+  --code ImageUri=814871541945.dkr.ecr.eu-central-1.amazonaws.com/bentoml-lambda-repo:latest \
+  --role arn:aws:iam::814871541945:role/myLambdaExecutionRole \
+  --timeout 30 \
+  --memory-size 1024
+
+aws lambda update-function-code \
+  --function-name bentomlInference \
+  --image-uri 814871541945.dkr.ecr.eu-central-1.amazonaws.com/bentoml-lambda-repo:latest \
+  --publish
+
+aws lambda add-permission \
+  --function-name bentomlInference \
+  --statement-id s3invoke3 \
+  --action "lambda:InvokeFunction" \
+  --principal s3.amazonaws.com \
+  --source-arn arn:aws:s3:::my-ml-model-bucket3 \
+  --source-account 814871541945
+
+
+aws s3api put-bucket-notification-configuration \
+  --bucket my-ml-model-bucket3 \
+  --notification-configuration '{
+    "LambdaFunctionConfigurations": [
+      {
+        "LambdaFunctionArn": "arn:aws:lambda:eu-central-1:814871541945:function:bentomlInference",
+        "Events": ["s3:ObjectCreated:*"],
+        "Filter": {
+          "Key": {"FilterRules":[{"Name":"prefix","Value":"inputs/"},{"Name":"suffix","Value":".jpg"}]}
+        }
+      }
+    ]
+  }'

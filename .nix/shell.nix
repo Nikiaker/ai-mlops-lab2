@@ -14,7 +14,8 @@ in
         python3Packages.pytorch-lightning
         python3Packages.wandb
         python3Packages.optuna
-        
+        python3Packages.boto3
+        awscli        
         #(pythonCustom.withPackages(p: [ p.bentoml ]))
     ];
 

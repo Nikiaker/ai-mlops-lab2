@@ -1,0 +1,19 @@
+{
+    "Records": [
+      {
+        "eventVersion": "2.1",
+        "eventSource": "aws:s3",
+        "awsRegion": "us-east-1",
+        "eventTime": "2025-05-08T12:34:56.000Z",
+        "eventName": "ObjectCreated:Put",
+        "s3": {
+          "bucket": {
+            "name": "my-ml-model-bucket"
+          },
+          "object": {
+            "key": "inputs/test.jpg"
+          }
+        }
+      }
+    ]
+  }

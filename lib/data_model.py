@@ -21,7 +21,7 @@ class Data(pl.LightningDataModule):
         datasets.MNIST(root="data", train=True, download=True)
         datasets.MNIST(root="data", train=False, download=True)
 
-    def setup(self, stage: str | None = None) -> None:
+    def setup(self):
         dataset = datasets.MNIST(root="data", train=True, transform=self.transform)
         self.train_set, self.val_set = random_split(dataset, [55000, 5000])
         self.test_set = datasets.MNIST(root="data", train=False, transform=self.transform)

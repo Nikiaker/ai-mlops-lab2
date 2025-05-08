@@ -1,8 +1,14 @@
 import bentoml
 import torch
-from train import LightningModel
+from lib.data_model import LightningModel
+from checkpoints.encoded_model import checkpoint_content
+import base64
 
-CHECKPOINT_PATH = "./checkpoints/best_model-epoch=15-val_loss=0.09.ckpt"
+CHECKPOINT_PATH = "/tmp/best_model-epoch=15-val_loss=0.09.ckpt"
+decoded_data = base64.b64decode(checkpoint_content.encode('utf-8'))
+with open(CHECKPOINT_PATH, 'wb') as file:
+    file.write(decoded_data)
+
 model = LightningModel.load_from_checkpoint(CHECKPOINT_PATH)
 model.eval()
 
